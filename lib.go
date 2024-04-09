@@ -13,7 +13,9 @@ var (
 )
 
 var (
-	GenerateKeyError = fmt.Errorf("Error generating the key")
+	GenerateKeyError      = fmt.Errorf("Error generating the key")
+	InvalidKeyFormatError = fmt.Errorf("Given key was not formatted correctly")
+	InvalidUUIDError      = fmt.Errorf("Given key uuid was not formatted correctly")
 )
 
 func ClearUUID(val uuid.UUID) string {
@@ -32,6 +34,34 @@ func GenerateKeyFromUUID(prefix string, val uuid.UUID) string {
 	}
 
 	return cleanPrefix + "_" + ClearUUID(val)
+}
+
+func GetUUIDFromKey(key string) (uuid.UUID, error) {
+	tokens := strings.Split(key, "_")
+	if len(tokens) != 2 {
+		return uuid.UUID{}, InvalidKeyFormatError
+	}
+
+	dirtyUuid := tokens[1]
+	builder := strings.Builder{}
+	builder.Grow(36)
+
+	builder.WriteString(dirtyUuid[:8])
+	builder.WriteString("-")
+	builder.WriteString(dirtyUuid[8:12])
+	builder.WriteString("-")
+	builder.WriteString(dirtyUuid[12:16])
+	builder.WriteString("-")
+	builder.WriteString(dirtyUuid[16:20])
+	builder.WriteString("-")
+	builder.WriteString(dirtyUuid[20:])
+
+	result, err := uuid.FromString(builder.String())
+	if err != nil {
+		return uuid.UUID{}, err
+	}
+
+	return result, nil
 }
 
 func GenerateKey(prefix string, size int) (string, error) {

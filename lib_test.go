@@ -59,3 +59,15 @@ func TestGenerateDifferentKeysOnEachCall(t *testing.T) {
 
 	assert.NotEqual(t, result1, result2)
 }
+
+func TestGetUuidFromKey(t *testing.T) {
+	val, err := uuid.FromString("c6b10dd3-1dcf-416c-8ed8-ae561807fcaf")
+	assert.NoError(t, err, "Generating UUID from String got an error")
+
+	result := gokey.GenerateKeyFromUUID("go", val)
+	assert.Equal(t, "go_c6b10dd31dcf416c8ed8ae561807fcaf", result, "Generating key got an error")
+
+	val2, err := gokey.GetUUIDFromKey(result)
+	assert.Equal(t, val2.String(), val.String(), "Expected back string to equal the first string")
+	assert.NoError(t, err, "Error getting UUID back from key")
+}

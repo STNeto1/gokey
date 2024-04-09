@@ -38,7 +38,8 @@ func GenerateKeyFromUUID(prefix string, val uuid.UUID) string {
 
 func GetUUIDFromKey(key string) (uuid.UUID, error) {
 	tokens := strings.Split(key, "_")
-	if len(tokens) != 2 {
+	// 32 => UUID without any -
+	if len(tokens) != 2 || len(tokens[1]) != 32 {
 		return uuid.UUID{}, InvalidKeyFormatError
 	}
 

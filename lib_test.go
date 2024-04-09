@@ -39,3 +39,23 @@ func TestGenerateKeyFromUuidWithMultipleTrailingUnderscore(t *testing.T) {
 	result := gokey.GenerateKeyFromUUID("go___", val)
 	assert.Equal(t, "go_c6b10dd31dcf416c8ed8ae561807fcaf", result, "Generating key got an error")
 }
+
+func TestGenerateKeyWith10Size(t *testing.T) {
+	result, err := gokey.GenerateKey("go___", 10)
+	assert.NoError(t, err, "Generating Key with Prefix and Size 10")
+
+	// go       -> 2
+	// _        -> 1
+	// size 10  -> 10
+	assert.Equal(t, 13, len(result), "Generating key got an error")
+}
+
+func TestGenerateDifferentKeysOnEachCall(t *testing.T) {
+	result1, err := gokey.GenerateKey("go___", 10)
+	assert.NoError(t, err, "Generating Key with Prefix and Size 10")
+
+	result2, err := gokey.GenerateKey("go___", 10)
+	assert.NoError(t, err, "Generating Key with Prefix and Size 10")
+
+	assert.NotEqual(t, result1, result2)
+}

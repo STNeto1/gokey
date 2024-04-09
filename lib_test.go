@@ -80,3 +80,12 @@ func TestGetUuidFromInvalidKey(t *testing.T) {
 	assert.True(t, val2.IsNil(), "Val2 did not get a nil value")
 	assert.Equal(t, err, gokey.InvalidKeyFormatError, "Should have gotten a invalid key format error")
 }
+
+func TestGetUuidFromInvalidUuid(t *testing.T) {
+	result, err := gokey.GenerateKey("go", 32)
+	assert.NoError(t, err, "Generating Key got an error")
+
+	val2, err := gokey.GetUUIDFromKey(result)
+	assert.True(t, val2.IsNil(), "Val2 did not get a nil value")
+	assert.Equal(t, err, gokey.InvalidUUIDError, "Should have gotten a invalid uuid error")
+}

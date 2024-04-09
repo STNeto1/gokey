@@ -59,7 +59,7 @@ func GetUUIDFromKey(key string) (uuid.UUID, error) {
 
 	result, err := uuid.FromString(builder.String())
 	if err != nil {
-		return uuid.UUID{}, err
+		return uuid.UUID{}, InvalidUUIDError
 	}
 
 	return result, nil

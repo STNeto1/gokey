@@ -76,7 +76,7 @@ func GetUUIDFromKey(key string) (uuid.UUID, error) {
 }
 
 // GenerateKey generates a key with a prefix and a size
-//  Example: GenerateKey("prefix", 10) => prefix_550e8400e29b41d4a716446655440000
+//  Example: GenerateKey("prefix", 10) => prefix_550e8400e2
 // It will remove any trailing _ from the prefix
 // It will return an error that if the key could not be generated correctly
 func GenerateKey(prefix string, size int) (string, error) {
@@ -100,7 +100,7 @@ func GenerateKey(prefix string, size int) (string, error) {
 }
 
 // MustGenerateKey generates a key with a prefix and a size
-//  Example: MustGenerateKey("prefix", 10) => prefix_550e8400e29b41d4a716446655440000
+//  Example: MustGenerateKey("prefix", 10) => prefix_550e8400e2
 // It will remove any trailing _ from the prefix
 // It will panic if the key could not be generated correctly
 func MustGenerateKey(prefix string, size int) string {
